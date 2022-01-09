@@ -1,5 +1,6 @@
 package com.codecool.ormdemo.controller;
 
+import com.codecool.ormdemo.model.Company;
 import com.codecool.ormdemo.model.Employee;
 import com.codecool.ormdemo.service.CompanyService;
 import com.codecool.ormdemo.service.EmployeeService;
@@ -9,8 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class EmployeeController {
@@ -30,8 +34,22 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public String employees(Model model){
-        model.addAttribute("employees", employeeService.getAll());
+    public String employees(@RequestParam(required = false, defaultValue = "-1") Long companyId, Model model){
+        List<Company> companies = companyService.getAll();
+        model.addAttribute("companies", companies);
+
+        Optional<Company> optionalCompany = companies.stream()
+                .filter(company -> company.getId().equals(companyId))
+                .findFirst();
+
+        if(optionalCompany.isPresent()) {
+            Company company = optionalCompany.get();
+            model.addAttribute("employees", company.getEmployees());
+            model.addAttribute("chosenCompanyName", company.getName());
+        } else {
+            model.addAttribute("employees", employeeService.getAll());
+            model.addAttribute("chosenCompanyName", "");
+        }
         return "employees";
     }
 
