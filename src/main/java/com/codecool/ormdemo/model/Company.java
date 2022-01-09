@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Company {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; //UUID, BigInteger, String
+public class Company extends BaseModel {
 
     @NotNull
     @NotBlank(message = "name is mandatory")
@@ -29,10 +26,6 @@ public class Company {
         this.name = name;
     }
 
-    public Long getId() { return id; }
-
-    public void setId(Long id) { this.id = id; }
-
     public List<Employee> getEmployees() {
         return employees;
     }
@@ -44,8 +37,7 @@ public class Company {
     @Override
     public String toString() {
         return "Company{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 '}';
     }
 }

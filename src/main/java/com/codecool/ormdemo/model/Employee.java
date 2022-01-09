@@ -5,11 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Employee {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; //UUID, BigInteger, String
+public class Employee extends BaseModel {
 
     @NotNull
     @NotBlank(message = "First name is mandatory")
@@ -31,14 +27,6 @@ public class Employee {
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -68,8 +56,7 @@ public class Employee {
     @Override
     public String toString() {
         return "Employee{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
+                "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
