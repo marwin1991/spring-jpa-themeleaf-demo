@@ -1,6 +1,7 @@
 package com.codecool.ormdemo.controller;
 
 import com.codecool.ormdemo.model.Employee;
+import com.codecool.ormdemo.service.CompanyService;
 import com.codecool.ormdemo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +16,12 @@ import javax.validation.Valid;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final CompanyService companyService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, CompanyService companyService) {
         this.employeeService = employeeService;
+        this.companyService = companyService;
     }
 
     @GetMapping("/")
@@ -35,11 +38,13 @@ public class EmployeeController {
 
     @GetMapping("/add_employee")
     public String displayAddEmployee(Employee employee, Model model){
+        model.addAttribute("companies", companyService.getAll());
         return "add_employee";
     }
 
     @PostMapping("/add_employee")
     public String addEmployee(@Valid Employee employee, BindingResult result, Model model) {
+        model.addAttribute("companies", companyService.getAll());
         if (result.hasErrors()) {
             return "add_employee";
         }

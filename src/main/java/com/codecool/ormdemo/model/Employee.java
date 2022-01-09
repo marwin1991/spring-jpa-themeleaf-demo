@@ -57,6 +57,14 @@ public class Employee {
         this.lastName = lastName;
     }
 
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
