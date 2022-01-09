@@ -19,6 +19,9 @@ public class Employee {
     @NotBlank(message = "Last name is mandatory")
     private String lastName;
 
+    @ManyToOne
+    private Company company;
+
     @Transient
     private String tmpUrl;
 
